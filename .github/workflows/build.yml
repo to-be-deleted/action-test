@@ -1,0 +1,22 @@
+name: Build and upload
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SECRING_HEX: ${{ secrets.SECRING_HEX }}
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v2
+    - name: Show xxd help
+      run: xxd --help
+    - name: Create secring.gpg.hex
+      run: echo $SECRING_HEX > secring.gpg.hex
+    - name: Extract secring
+      run: xxd -p -r secring.gpg.hex > secring.gpg
+    - name: pwd
+      run: pwd
+    - name: Show current dir content
+      run: ls -al .
